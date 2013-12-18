@@ -1,0 +1,10 @@
+Select the user you want to impersonate<br/>
+<%= form_for :user, url: 'start_impersonation' do |f| %>
+  <%= f.select :impersonated_user_id, options_for_select(@users.collect{|u| [u.name,u.id]}) %>
+  <%=f.submit 'Start Impersonation'%>
+<%end%>
+<% unless User.impersonated_user.nil?%>
+  <%= form_for :user, url: 'stop_impersonation' do |f| %>
+    <%=f.submit 'Stop Impersonation'%>
+  <%end%>
+<%end%>
