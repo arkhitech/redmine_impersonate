@@ -13,7 +13,6 @@ class ImpersonateController < ApplicationController
   
   def start_impersonation
     user=User.find(params[:user][:impersonated_user_id])
-    puts "#{'*'*300} This is the user to be impersonated #{user.inspect}"
     session[:impersonated_user_id]=params[:user][:impersonated_user_id]
     User.impersonated_user=user
     redirect_to action: 'select_user'
