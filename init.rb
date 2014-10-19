@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 end
 
-Redmine::Plugin.register :redmine_impersonate_plugin do
+Redmine::Plugin.register :redmine_impersonate do
   name 'Redmine Impersonate Plugin plugin'
   author 'Author name'
   description 'This is a plugin for Redmine'
