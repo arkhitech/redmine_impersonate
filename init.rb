@@ -5,13 +5,13 @@ class User < Principal
   class << self
     alias_method :current_without_impersonation, :current
     def current
-      Thread.current[:impersonated_user] || current_without_impersonation
+      RequestStore.store[:impersonated_user] || current_without_impersonation
     end
     def impersonated_user=(user)
-      Thread.current[:impersonated_user]=user
+      RequestStore.store[:impersonated_user]=user
     end
     def impersonated_user
-      Thread.current[:impersonated_user]
+      RequestStore.store[:impersonated_user]
     end
   end
   alias_method :allowed_to_without_impersonation?, :allowed_to?
@@ -22,7 +22,7 @@ class User < Principal
       allowed_to_without_impersonation?(action, context, options, &block)
     end
   end
-  
+
 end
 require_dependency 'application_controller'
 class ApplicationController < ActionController::Base
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 end
 
-Redmine::Plugin.register :redmine_impersonate_plugin do
+Redmine::Plugin.register :redmine_impersonate do
   name 'Redmine Impersonate Plugin plugin'
   author 'Author name'
   description 'This is a plugin for Redmine'
@@ -51,8 +51,8 @@ Redmine::Plugin.register :redmine_impersonate_plugin do
   project_module :impersonate do
     permission :impersonate_project_user,:impersonate => [:select_user, :start_impersonation, :stop_impersonation]
 
-    menu :project_menu, :impersonate, 
-      { controller: :impersonate, :action => 'select_user' }, 
+    menu :project_menu, :impersonate,
+      { controller: :impersonate, :action => 'select_user' },
       after: :activity, param: :project_id
   end
 end
