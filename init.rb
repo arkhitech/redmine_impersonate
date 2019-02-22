@@ -27,7 +27,7 @@ end
 require_dependency 'application_controller'
 class ApplicationController < ActionController::Base
   unloadable
-  before_filter :impersonate_if_needed
+  before_action :impersonate_if_needed
   def impersonate_if_needed
     if session[:impersonated_user_id]
       User.impersonated_user=User.find(session[:impersonated_user_id])

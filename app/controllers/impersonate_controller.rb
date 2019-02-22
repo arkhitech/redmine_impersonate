@@ -1,6 +1,6 @@
 class ImpersonateController < ApplicationController
   unloadable
-  before_filter :project, :permission!
+  before_action :project, :permission!
   
   def permission!
     User.current.allowed_to?(:impersonate_project_user,project) || 
